@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, QueryCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, PutCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 
 const dbClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 const MESSAGES_TABLE = process.env.MESSAGES_TABLE!;
@@ -27,7 +27,17 @@ export const handler: APIGatewayProxyHandler = async (event) => {
       };
     }
 
-    // Step 1: Get the conversation
+    const body = JSON.parse(event.body || '{}');
+    const messageBody = body.body?.trim();
+
+    if (!messageBody) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Message body is required' }),
+      };
+    }
+
+    // Step 1: Validate access
     const { Item: conversation } = await dbClient.send(
       new GetCommand({
         TableName: CONVERSATIONS_TABLE,
@@ -52,27 +62,42 @@ export const handler: APIGatewayProxyHandler = async (event) => {
       };
     }
 
-    // Step 2: Fetch messages
-    const result = await dbClient.send(
-      new QueryCommand({
+    // Step 2: Write message
+    const timestamp = new Date().toISOString();
+    const messageId = generateUuidV4();
+
+    await dbClient.send(
+      new PutCommand({
         TableName: MESSAGES_TABLE,
-        KeyConditionExpression: 'conversationId = :cid',
-        ExpressionAttributeValues: {
-          ':cid': conversationId,
+        Item: {
+          conversationId,
+          messageId,
+          sender: email,
+          senderId: userId,
+          body: messageBody,
+          sentAt: timestamp,
+          readByCustomer: isEmployee ? false : true, // unread if sent by employee
         },
-        ScanIndexForward: true, // sort by timestamp ascending
       })
     );
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ messages: result.Items || [] }),
+      body: JSON.stringify({ message: 'Message sent successfully' }),
     };
   } catch (err) {
-    console.error('❌ Error getting messages:', err);
+    console.error('Error posting message:', err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to retrieve messages' }),
+      body: JSON.stringify({ error: 'Failed to send message' }),
     };
   }
 };
+
+function generateUuidV4(): string {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
