@@ -1,11 +1,11 @@
-// === /lib/auth.ts ===
+// lib/customer-auth.ts
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Stack } from 'aws-cdk-lib';
 import { join } from 'path';
 
-export function setupAuth(stack: Stack, lambdaRole: iam.Role) {
+export function setupCustomerAuth(stack: Stack, lambdaRole: iam.Role) {
   const defineAuthChallenge = new lambda.Function(stack, 'DefineAuthChallenge', {
     runtime: lambda.Runtime.NODEJS_18_X,
     handler: 'define.handler',
@@ -28,6 +28,7 @@ export function setupAuth(stack: Stack, lambdaRole: iam.Role) {
   });
 
   const userPool = new cognito.UserPool(stack, 'CustomerUserPool', {
+    userPoolName: 'CustomerUserPool',
     signInAliases: { email: true },
     autoVerify: { email: true },
     lambdaTriggers: {

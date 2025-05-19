@@ -1,11 +1,15 @@
 import { CognitoIdentityProviderClient, InitiateAuthCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
 
-const client = new CognitoIdentityProviderClient({});
+const cognito = new CognitoIdentityProviderClient({});
+const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
-const USER_POOL_CLIENT_ID = process.env.USER_POOL_CLIENT_ID;
+const USER_POOL_CLIENT_ID = process.env.USER_POOL_CLIENT_ID!;
+const CUSTOMERS_TABLE = process.env.CUSTOMERS_TABLE!;
 
 export const handler = async (event: any) => {
-  console.log("Received event:", JSON.stringify(event));
+  console.log("Received OTP event:", JSON.stringify(event));
 
   try {
     const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
@@ -18,15 +22,29 @@ export const handler = async (event: any) => {
       };
     }
 
-    const command = new InitiateAuthCommand({
+    // Step 1: Confirm customer exists in the DB
+    const { Item } = await ddb.send(new GetCommand({
+      TableName: CUSTOMERS_TABLE,
+      Key: { email }, // assumes 'email' is the partition key
+    }));
+
+    if (!Item) {
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ error: "This email is not authorized to access messages" }),
+      };
+    }
+
+    // Step 2: Begin custom auth flow with Cognito
+    const authCommand = new InitiateAuthCommand({
       AuthFlow: "CUSTOM_AUTH",
-      ClientId: USER_POOL_CLIENT_ID!,
+      ClientId: USER_POOL_CLIENT_ID,
       AuthParameters: {
         USERNAME: email,
       },
     });
 
-    const response = await client.send(command);
+    const response = await cognito.send(authCommand);
 
     return {
       statusCode: 200,

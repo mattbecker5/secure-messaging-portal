@@ -1,19 +1,21 @@
 import { Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
-export function setupPermissions(stack: Stack, db: any, userPoolId: string, sesEmail: string) {
-  const lambdaRole = new iam.Role(stack, 'LambdaExecutionRole', {
-    assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-    managedPolicies: [
-      iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
-    ],
-  });
+export function setupPermissions(
+  stack: Stack,
+  db: any,
+  customerUserPoolId: string,
+  employeeUserPoolId: string,
+  sesEmail: string,
+  apiLambdaRole: iam.Role,
+  authLambdaRole?: iam.Role
+) {
+  // Allow access to DynamoDB tables
+  db.messagesTable.grantReadWriteData(apiLambdaRole);
+  db.employeesTable.grantReadWriteData(apiLambdaRole);
 
-  // Allow access to DynamoDB table
-  db.messagesTable.grantReadWriteData(lambdaRole);
-
-  // Allow API Lambdas to call Cognito operations
-  lambdaRole.addToPolicy(new iam.PolicyStatement({
+  // === Customer Cognito permissions ===
+  const customerCognitoPolicy = new iam.PolicyStatement({
     actions: [
       'cognito-idp:AdminGetUser',
       'cognito-idp:AdminCreateUser',
@@ -22,18 +24,36 @@ export function setupPermissions(stack: Stack, db: any, userPoolId: string, sesE
       'cognito-idp:RespondToAuthChallenge',
     ],
     resources: [
-      `arn:aws:cognito-idp:${stack.region}:${stack.account}:userpool/${userPoolId}`,
+      `arn:aws:cognito-idp:${stack.region}:${stack.account}:userpool/${customerUserPoolId}`,
     ],
-  }));
+  });
+  apiLambdaRole.addToPolicy(customerCognitoPolicy);
 
-  // Allow Lambda to send email using SES
-  lambdaRole.addToPolicy(new iam.PolicyStatement({
+  // === Employee Cognito permissions ===
+  const employeeCognitoPolicy = new iam.PolicyStatement({
+    actions: [
+      'cognito-idp:AdminCreateUser',
+      'cognito-idp:AdminSetUserPassword',
+    ],
+    resources: [
+      `arn:aws:cognito-idp:${stack.region}:${stack.account}:userpool/${employeeUserPoolId}`,
+    ],
+  });
+  apiLambdaRole.addToPolicy(employeeCognitoPolicy);
+
+  // === SES permissions ===
+  const sesPolicy = new iam.PolicyStatement({
     actions: ['ses:SendEmail', 'ses:SendRawEmail'],
     resources: [
       `arn:aws:ses:${stack.region}:${stack.account}:identity/*`,
-      `arn:aws:ses:${stack.region}:${stack.account}:configuration-set/my-first-configuration-set`
+      `arn:aws:ses:${stack.region}:${stack.account}:configuration-set/my-first-configuration-set`,
     ],
-  }));
+  });
+  apiLambdaRole.addToPolicy(sesPolicy);
 
-  return { lambdaRole };
+  if (authLambdaRole) {
+    authLambdaRole.addToPolicy(sesPolicy);
+  }
+
+  return { lambdaRole: apiLambdaRole };
 }

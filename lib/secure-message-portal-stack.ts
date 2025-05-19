@@ -2,8 +2,10 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { setupApiGateway } from './api-gateway';
 import { setupDynamoDB } from './dynamodb';
-import { setupAuth } from './auth';
+import { setupCustomerAuth } from './customer-auth';
 import { setupPermissions } from './permissions';
+import { setupEmployeeAuth } from './employee-auth';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -14,22 +16,48 @@ export class SecureMessagePortalStack extends cdk.Stack {
 
     const db = setupDynamoDB(this);
 
+    // Role for Cognito trigger Lambdas
+    const authLambdaRole = new iam.Role(this, 'AuthLambdaExecutionRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
+      ],
+    });
+
+    // Role for REST API Lambdas
+    const apiLambdaRole = new iam.Role(this, 'ApiLambdaExecutionRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
+      ],
+    });
+
+    // setting read access to the employee table
+    db.employeesTable.grantReadData(apiLambdaRole);
+
+    // Customer Auth setup with trigger role
+    const customerAuth = setupCustomerAuth(this, authLambdaRole);
+
+    // creating SSO login
+    const employeeAuth = setupEmployeeAuth(this);
+
+    // SES email address
     const sesEmail = 'accounts@pacmotor.com';
-    const permissions = setupPermissions(this, db, '', sesEmail); // userPoolId not needed yet
 
-    const auth = setupAuth(this, permissions.lambdaRole); // pass role into auth
+    // Permissions for API Lambdas, SES, Cognito access
+    setupPermissions(
+      this,
+      db,
+      customerAuth.userPool.userPoolId,
+      employeeAuth.userPool.userPoolId,
+      sesEmail,
+      apiLambdaRole,
+      authLambdaRole
+    );
 
-    // After userPool is created, update the permissions (if needed)
-    // (Optional: grant Cognito-specific permissions later here if separate logic is used)
 
-    setupApiGateway(this, db, auth, permissions);
+    // API Gateway with API Lambda role
+    setupApiGateway(this, db, customerAuth, { lambdaRole: apiLambdaRole }, employeeAuth);
 
-    new cdk.CfnOutput(this, 'UserPoolId', {
-      value: auth.userPool.userPoolId,
-    });
-
-    new cdk.CfnOutput(this, 'UserPoolClientId', {
-      value: auth.userPoolClient.userPoolClientId,
-    });
   }
 }
