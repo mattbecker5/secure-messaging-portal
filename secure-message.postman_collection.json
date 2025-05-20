@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "d3d3e3bf-ef14-403b-91b0-a2c373466d89",
+		"name": "secure-message",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33005179"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Customer",
+					"item": [
+						{
+							"name": "/otp",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"matthewbecker@pacmotor.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{env}}/otp",
+									"host": [
+										"{{env}}"
+									],
+									"path": [
+										"otp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/otp/verify",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"matthewbecker@pacmotor.com\",\n    \"code\": \"999093\",\n    \"session\": \"AYABeBphkO6MkzNFQRHSk6I6czYAHQABAAdTZXJ2aWNlABBDb2duaXRvVXNlclBvb2xzAAEAB2F3cy1rbXMAS2Fybjphd3M6a21zOnVzLWVhc3QtMTo3NDU2MjM0Njc1NTU6a2V5L2IxNTVhZmNhLWJmMjktNGVlZC1hZmQ4LWE5ZTA5MzY1M2RiZQC4AQIBAHhR9E4zNbI1ofi3Y01_Ljgh2wK-ZaC__bKufjbgmejy4gEGdNLwKy60iLZJ_ncUr3nUAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMpv2ORHnQmUZ8ig5BAgEQgDvEjVSmIPRtmaTmEsOKccQjd81CE32IifxP2QgYVT8pfQ_bhtAQ1HH_xGXAWdpEeG2g7tyVj-4oHxt_xQIAAAAADAAAEAAAAAAAAAAAAAAAAABmMetVDj5TFMRtbgQVGAUb_____wAAAAEAAAAAAAAAAAAAAAEAAAEm6OkXrtLKuiFcVY8YPQLr8IPC9y6OhrnGuu4oH2_oCw5lBk1Jt2ntIPLY41zYE7KghiSifuUvGs6RSdOTKA1ozUr19B6ecF0i1K_CJlvjHAlGGRsClJDpW_FSvBEtRsCeYsxXJ3ZrgsqevwlcNPdRmdu3gFbBNovW_-EJcTFnM3C9mStb8LgmJiymREZYJ0aNH67jbaFzyIuT84kofoJIGpffuc4kId452eUiBlqQVN6zCvcpfvyl8WT39YkaFabgQtFN2WZ7cRQP4N3G_LTiMpN4llMKGH92cJfRWfyb9-VCV_zLErgyShAxugz0Mmq2xsQIUnTVeUzrwTJgDxK1MTHIoNP76OUs8Em4VCY2zHSXwwSUIYny-QEL-ncLkXjMHwKZmLI6KK2JY9Kr9vDIm5dJxvx9_g\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{env}}/otp/verify",
+									"host": [
+										"{{env}}"
+									],
+									"path": [
+										"otp",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJraWQiOiJsQTNpTnp2aUxlVW9sd1FLc1BGVlF0cEN1cnNiQktvSTNaNVE4a1NWZ1VVPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoia05Ud3Iwa2VydThkWXVPTFFyU0hZUSIsInN1YiI6ImQ0YzhlNDI4LTMwMzEtNzA2My05NzMxLTIwYTE1MDUzMmRjOSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV95aU9jZ2xScjIiLCJjb2duaXRvOnVzZXJuYW1lIjoiZDRjOGU0MjgtMzAzMS03MDYzLTk3MzEtMjBhMTUwNTMyZGM5Iiwib3JpZ2luX2p0aSI6IjM2MDMwNzI3LTJiNzEtNDgyNC1iNjEyLWMxMTg5NDA2ZjcxMSIsImF1ZCI6IjE2dDhlamw4NmwzajY4bDJrNzcyOW50aDZzIiwiZXZlbnRfaWQiOiIyZTQzYmI5NS1iZDM4LTRiNDYtYjdjNC1lMjYxMzMyYWE4ZGEiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTc0NzYzMzM2OCwibmFtZSI6Ik1hdHRoZXcgQmVja2VyIiwiZXhwIjoxNzQ3NjM2OTY4LCJpYXQiOjE3NDc2MzMzNjgsImp0aSI6ImJlMTU2MDU3LTdkOTctNDMwZS1hNWY4LWE3MzU1YzM2OTk4MSIsImVtYWlsIjoibWF0dGJlY2tlcjdAZ21haWwuY29tIn0.ORtsKrjZzmlK5-43axmRdkOUdLDCqqqW19m2LeFX42iaajkKEiHERPX7g6Kllo2b6IDNkiXWkLLdmt2lxE0k6CXLAZwVJcxJ_bWG3RRvgP97iBum2yKn8Zjyw0OyHWrfOUIi1lmqHJ_H2gmLoSuIw3lGNE5ZBnmq3bZPgqZ3CqJSwZb2PC7pl5z8ZHe2tOyDfHqU5S9U_Sx6CnJZMOs3ZttuEWgoa6BIqW_wGmQJ3wlQze5IRvBmZ2E33Ax7Z8V4h19mRAp4gY551anaaROhbFLxoO0Z0acLRIMdNlcUUHG4Bi2x9ue-RAyoq0vSDjArMB-hHmVB3UCAHjXN8MVe_Q",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"matthewbecker@pacmotor.com\",\n  \"name\": \"Matt\",\n  \"phoneNumber\": \"+12393401149\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{env}}/customer/register",
+									"host": [
+										"{{env}}"
+									],
+									"path": [
+										"customer",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invite",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJraWQiOiJsQTNpTnp2aUxlVW9sd1FLc1BGVlF0cEN1cnNiQktvSTNaNVE4a1NWZ1VVPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoia05Ud3Iwa2VydThkWXVPTFFyU0hZUSIsInN1YiI6ImQ0YzhlNDI4LTMwMzEtNzA2My05NzMxLTIwYTE1MDUzMmRjOSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV95aU9jZ2xScjIiLCJjb2duaXRvOnVzZXJuYW1lIjoiZDRjOGU0MjgtMzAzMS03MDYzLTk3MzEtMjBhMTUwNTMyZGM5Iiwib3JpZ2luX2p0aSI6IjM2MDMwNzI3LTJiNzEtNDgyNC1iNjEyLWMxMTg5NDA2ZjcxMSIsImF1ZCI6IjE2dDhlamw4NmwzajY4bDJrNzcyOW50aDZzIiwiZXZlbnRfaWQiOiIyZTQzYmI5NS1iZDM4LTRiNDYtYjdjNC1lMjYxMzMyYWE4ZGEiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTc0NzYzMzM2OCwibmFtZSI6Ik1hdHRoZXcgQmVja2VyIiwiZXhwIjoxNzQ3NjM2OTY4LCJpYXQiOjE3NDc2MzMzNjgsImp0aSI6ImJlMTU2MDU3LTdkOTctNDMwZS1hNWY4LWE3MzU1YzM2OTk4MSIsImVtYWlsIjoibWF0dGJlY2tlcjdAZ21haWwuY29tIn0.ORtsKrjZzmlK5-43axmRdkOUdLDCqqqW19m2LeFX42iaajkKEiHERPX7g6Kllo2b6IDNkiXWkLLdmt2lxE0k6CXLAZwVJcxJ_bWG3RRvgP97iBum2yKn8Zjyw0OyHWrfOUIi1lmqHJ_H2gmLoSuIw3lGNE5ZBnmq3bZPgqZ3CqJSwZb2PC7pl5z8ZHe2tOyDfHqU5S9U_Sx6CnJZMOs3ZttuEWgoa6BIqW_wGmQJ3wlQze5IRvBmZ2E33Ax7Z8V4h19mRAp4gY551anaaROhbFLxoO0Z0acLRIMdNlcUUHG4Bi2x9ue-RAyoq0vSDjArMB-hHmVB3UCAHjXN8MVe_Q",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"matthewbecker@pacmotor.com\",\n  \"name\": \"Matt\",\n  \"title\": \"Welcome to Secure Messaging\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{env}}/customer/invite",
+									"host": [
+										"{{env}}"
+									],
+									"path": [
+										"customer",
+										"invite"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Employee",
+					"item": [
+						{
+							"name": "/token",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "16t8ejl86l3j68l2k7729nth6s",
+											"type": "text"
+										},
+										{
+											"key": "code",
+											"value": "812adfd9-620b-47f2-9f4e-2a04f13c438e",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "http://localhost:3000/callback",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://secure-msg-portal-employee.auth.us-east-1.amazoncognito.com/oauth2/token",
+									"protocol": "https",
+									"host": [
+										"secure-msg-portal-employee",
+										"auth",
+										"us-east-1",
+										"amazoncognito",
+										"com"
+									],
+									"path": [
+										"oauth2",
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "profile",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJraWQiOiJsQTNpTnp2aUxlVW9sd1FLc1BGVlF0cEN1cnNiQktvSTNaNVE4a1NWZ1VVPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiVTJITDhVcUFqQ1VDcEllUEl4OG9QdyIsInN1YiI6ImQ0YzhlNDI4LTMwMzEtNzA2My05NzMxLTIwYTE1MDUzMmRjOSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV95aU9jZ2xScjIiLCJjb2duaXRvOnVzZXJuYW1lIjoiZDRjOGU0MjgtMzAzMS03MDYzLTk3MzEtMjBhMTUwNTMyZGM5Iiwib3JpZ2luX2p0aSI6IjE0ZmU5ZjU4LTViODctNGIwOC1hOTRmLTNlMDU4Mzk1OGJjZSIsImF1ZCI6IjE2dDhlamw4NmwzajY4bDJrNzcyOW50aDZzIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3NDc2MzYwMjMsIm5hbWUiOiJNYXR0aGV3IEJlY2tlciIsImV4cCI6MTc0NzYzOTYyMywiaWF0IjoxNzQ3NjM2MDIzLCJqdGkiOiJkMWE5NTVkNS1iOWVlLTQ0NjAtOGIxZi01NTYyNzJkZWY5NGYiLCJlbWFpbCI6Im1hdHRiZWNrZXI3QGdtYWlsLmNvbSJ9.kfSLQn_fxFMc-ot0FdLEYpVFJ7MYwfoVYL9iAjKQN3TrfKRT8ji2IdOb34XscE1BNEJugqnwpTQGHzcybrt7rVA668_GYZDPZjEtKZB__pK2OTTrSeyz0ky46mlch7qoEgVAtM-00kP_lSflUu-PS3bJzpuFQY5QVuFEv4-H4jhWv4YpNQlAk_tP5Vt3catf0SUHodW229bEv7EBaOoY_UqhPwt_8fk17oAQKm7P-_buBU-xPX0ol7FEPTe8MJnoI9ngLNllrF_0pOz3kZRCDca8ZalsICvtqJvejRpGw8J_7oz_EEM1WMJaHvG2hoX-4nognRkZ8BlE5oCYRVmASQ",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{env}}/employee/profile",
+									"host": [
+										"{{env}}"
+									],
+									"path": [
+										"employee",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJraWQiOiJsQTNpTnp2aUxlVW9sd1FLc1BGVlF0cEN1cnNiQktvSTNaNVE4a1NWZ1VVPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiZGtfVmRTX24tU0ZoWnpIVWpLRzFCQSIsInN1YiI6IjY0NjgyNDA4LWUwOTEtNzA0ZS0wNDc3LTU5ZTU0MjA2ZDg3MyIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV95aU9jZ2xScjIiLCJjb2duaXRvOnVzZXJuYW1lIjoiNjQ2ODI0MDgtZTA5MS03MDRlLTA0NzctNTllNTQyMDZkODczIiwib3JpZ2luX2p0aSI6IjI0NWIwNjU2LTgyOWEtNGMxMi1iNTA4LTczMGYyMWQ5MTEzNCIsImF1ZCI6IjE2dDhlamw4NmwzajY4bDJrNzcyOW50aDZzIiwiZXZlbnRfaWQiOiJiZjc1YTU5ZC1hZDg0LTQwMzctYjBkZS03MDNmZmZmM2E3ODEiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTc0NzYxOTY4MCwibmFtZSI6Ik1hdHRoZXcgQmVja2VyIiwicGhvbmVfbnVtYmVyIjoiKzEyMzkzNDAxMTQ5IiwiZXhwIjoxNzQ3NjIzMjgwLCJpYXQiOjE3NDc2MTk2ODAsImp0aSI6Ijc1NDU1NTNjLTBjZTItNDdjMi1iNGY0LTI1NmQ3NmFkMWMwNCIsImVtYWlsIjoibWF0dGhld2JlY2tlckBwYWNtb3Rvci5jb20ifQ.mKRzvpsHHjA4HQyiVJhZEhOgzmfIZ0sbej9mn4vUM17z7xXlmGyEvrmJWJCq2phGHwCScQIfo4QooKvLjPG1jGWP4ngLWrxkyKch4PC7X4yv_YLqVkI_aGH0CTHjjoJTdwu5Ldj5OoyqQ9_6Uih49FIJm1eDoZbc2y5ZM_YMtWDE2WWRjhVCbtDAihbLHX0g-_KasAXGC7w9KDEUK8d6T8rxCvsFdDv-Qw7PalHXmsWpzgxAgYS0acRmq5PPeDu2LE455Ox_BIQvG8tbxisxYT63vHtKSTIrtLPSySqkaIqhlnvBYCskox5vLAfldLTvXzrwmDaseODItpHn1CGCuA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"mattbecker7@gmail.com\",\n    \"name\": \"Matthew Becker\",\n    \"phoneNumber\": \"+12393401149\",\n    \"password\": \"SecurePassword123!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{env}}/employee/register",
+									"host": [
+										"{{env}}"
+									],
+									"path": [
+										"employee",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Messages",
+					"item": [
+						{
+							"name": "messages",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJraWQiOiJsQTNpTnp2aUxlVW9sd1FLc1BGVlF0cEN1cnNiQktvSTNaNVE4a1NWZ1VVPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiVTJITDhVcUFqQ1VDcEllUEl4OG9QdyIsInN1YiI6ImQ0YzhlNDI4LTMwMzEtNzA2My05NzMxLTIwYTE1MDUzMmRjOSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV95aU9jZ2xScjIiLCJjb2duaXRvOnVzZXJuYW1lIjoiZDRjOGU0MjgtMzAzMS03MDYzLTk3MzEtMjBhMTUwNTMyZGM5Iiwib3JpZ2luX2p0aSI6IjE0ZmU5ZjU4LTViODctNGIwOC1hOTRmLTNlMDU4Mzk1OGJjZSIsImF1ZCI6IjE2dDhlamw4NmwzajY4bDJrNzcyOW50aDZzIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3NDc2MzYwMjMsIm5hbWUiOiJNYXR0aGV3IEJlY2tlciIsImV4cCI6MTc0NzYzOTYyMywiaWF0IjoxNzQ3NjM2MDIzLCJqdGkiOiJkMWE5NTVkNS1iOWVlLTQ0NjAtOGIxZi01NTYyNzJkZWY5NGYiLCJlbWFpbCI6Im1hdHRiZWNrZXI3QGdtYWlsLmNvbSJ9.kfSLQn_fxFMc-ot0FdLEYpVFJ7MYwfoVYL9iAjKQN3TrfKRT8ji2IdOb34XscE1BNEJugqnwpTQGHzcybrt7rVA668_GYZDPZjEtKZB__pK2OTTrSeyz0ky46mlch7qoEgVAtM-00kP_lSflUu-PS3bJzpuFQY5QVuFEv4-H4jhWv4YpNQlAk_tP5Vt3catf0SUHodW229bEv7EBaOoY_UqhPwt_8fk17oAQKm7P-_buBU-xPX0ol7FEPTe8MJnoI9ngLNllrF_0pOz3kZRCDca8ZalsICvtqJvejRpGw8J_7oz_EEM1WMJaHvG2hoX-4nognRkZ8BlE5oCYRVmASQ",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{env}}/messages/d2a6566b-6f99-412f-a7cc-1ad5baa57c10",
+									"host": [
+										"{{env}}"
+									],
+									"path": [
+										"messages",
+										"d2a6566b-6f99-412f-a7cc-1ad5baa57c10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJraWQiOiIyZHluNDY4NGdqSys1amZ5RWZ2KzNPRW5WdWlPT0J6VkV2STlKSFJMSjNJPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJmNGM4NTRmOC1iMDExLTcwZmMtYjNiNC04MjgyOGQ3NGQ0MGMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfUk53Uk5lVHk3IiwiY29nbml0bzp1c2VybmFtZSI6ImY0Yzg1NGY4LWIwMTEtNzBmYy1iM2I0LTgyODI4ZDc0ZDQwYyIsIm9yaWdpbl9qdGkiOiIzNjIxMjFmMS02MmRjLTRjZTctODA1Ni02ODk1OWUyYWMxZDgiLCJhdWQiOiI3b3JwcWtibDI1ajN2ZHJmM2U2dW04djVjNSIsImV2ZW50X2lkIjoiNmNhNWI0MDAtYjEyNy00MTIyLWI2NzktYmQzMzY4NjNlYzZlIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3NDc2MzcwMjAsImV4cCI6MTc0NzY0MDYyMCwiaWF0IjoxNzQ3NjM3MDIwLCJqdGkiOiI1MDg5YWQzMi02NmNiLTQ5ZDktYTY2Ny00MmQzZmExODg2NDIiLCJlbWFpbCI6Im1hdHRoZXdiZWNrZXJAcGFjbW90b3IuY29tIn0.bVATt3hjq6MEXV_rvzVTHTHA_dDQwtr3OZ3z453r1jFgpeCf2w2Z-DhtADEnASe9ukpaQnUFZfhIOeIlCS8jTLdlYvX7i7LkZ2528YrPkwRo_-VXnvR7ex0kDWThfKO0yV3TCBmoyxeoTrhBKg2nsU0X0v4s5iThCuLQydacsJFlY16WGt5PcYukku-HVUiA3Hmluy0pmHgCVosP8b5iefbQmtUT_U-oi1NELCb8SNsv-cPmusqXdlZ5pUzbvdpr1_SMaCUluu_WWTSWSbJbuf0ZW6lihkxDhgN9E-vCczW83eoasr9drJFH0zl-0L-xuM4JU9AYsU_cu-lVvTBnzQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"body\": \"Just checking in about your PacMotor order.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{env}}/messages/d2a6566b-6f99-412f-a7cc-1ad5baa57c10",
+									"host": [
+										"{{env}}"
+									],
+									"path": [
+										"messages",
+										"d2a6566b-6f99-412f-a7cc-1ad5baa57c10"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Conversations",
+					"item": [
+						{
+							"name": "conversations",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJraWQiOiJsQTNpTnp2aUxlVW9sd1FLc1BGVlF0cEN1cnNiQktvSTNaNVE4a1NWZ1VVPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiVTJITDhVcUFqQ1VDcEllUEl4OG9QdyIsInN1YiI6ImQ0YzhlNDI4LTMwMzEtNzA2My05NzMxLTIwYTE1MDUzMmRjOSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV95aU9jZ2xScjIiLCJjb2duaXRvOnVzZXJuYW1lIjoiZDRjOGU0MjgtMzAzMS03MDYzLTk3MzEtMjBhMTUwNTMyZGM5Iiwib3JpZ2luX2p0aSI6IjE0ZmU5ZjU4LTViODctNGIwOC1hOTRmLTNlMDU4Mzk1OGJjZSIsImF1ZCI6IjE2dDhlamw4NmwzajY4bDJrNzcyOW50aDZzIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE3NDc2MzYwMjMsIm5hbWUiOiJNYXR0aGV3IEJlY2tlciIsImV4cCI6MTc0NzYzOTYyMywiaWF0IjoxNzQ3NjM2MDIzLCJqdGkiOiJkMWE5NTVkNS1iOWVlLTQ0NjAtOGIxZi01NTYyNzJkZWY5NGYiLCJlbWFpbCI6Im1hdHRiZWNrZXI3QGdtYWlsLmNvbSJ9.kfSLQn_fxFMc-ot0FdLEYpVFJ7MYwfoVYL9iAjKQN3TrfKRT8ji2IdOb34XscE1BNEJugqnwpTQGHzcybrt7rVA668_GYZDPZjEtKZB__pK2OTTrSeyz0ky46mlch7qoEgVAtM-00kP_lSflUu-PS3bJzpuFQY5QVuFEv4-H4jhWv4YpNQlAk_tP5Vt3catf0SUHodW229bEv7EBaOoY_UqhPwt_8fk17oAQKm7P-_buBU-xPX0ol7FEPTe8MJnoI9ngLNllrF_0pOz3kZRCDca8ZalsICvtqJvejRpGw8J_7oz_EEM1WMJaHvG2hoX-4nognRkZ8BlE5oCYRVmASQ",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{env}}/conversations",
+									"host": [
+										"{{env}}"
+									],
+									"path": [
+										"conversations"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
